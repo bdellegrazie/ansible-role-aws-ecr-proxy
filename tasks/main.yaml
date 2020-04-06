@@ -29,7 +29,7 @@
   become: true
   docker_image:
     name: "{{ docker_aws_ecr_proxy_image }}"
-    pull: true
+    source: "pull"
   register: _image_pull
   when: docker_aws_ecr_proxy_pull|bool
   tags:
@@ -56,28 +56,28 @@
     name: docker-registry-proxy
     network_mode: host
     restart_policy: unless-stopped
-    recreate: "{{ (docker_aws_ecr_proxy_clear_cache|bool) or (_image_pull is defined and _image_pull|changed) }}"
+    recreate: "{{ (docker_aws_ecr_proxy_clear_cache|bool) or (_image_pull is defined and _image_pull is changed) }}"
     state: started
     tmpfs:
       - "/tmp"
     env: >
       {{
         {
-          "RESOLVER": docker_aws_ecr_proxy_backend_resolver
-          "PORT": "5000"
-          "UPSTREAM": docker_aws_ecr_proxy_backend_schema ~ "//" ~ docker_aws_ecr_proxy_backend
-          "CACHE_MAX_SIZE": docker_aws_ecr_proxy_cache_limit
-          "AWS_REGION": docker_aws_ecr_proxy_region
+          "RESOLVER": docker_aws_ecr_proxy_backend_resolver,
+          "PORT": "5000",
+          "UPSTREAM": docker_aws_ecr_proxy_backend_schema ~ "//" ~ docker_aws_ecr_proxy_backend,
+          "CACHE_MAX_SIZE": docker_aws_ecr_proxy_cache_limit,
+          "AWS_REGION": docker_aws_ecr_proxy_region,
           "ENABLE_SSL": "true" if (docker_aws_ecr_proxy_ssl_enabled | bool) else "false"
         }
-        | union({
+        | combine({
           "AWS_PROFILE": docker_aws_ecr_proxy_profile
         } if (docker_aws_ecr_proxy_profile|length) else {
-          "AWS_ACCESS_KEY_ID": docker_aws_ecr_proxy_access_id
+          "AWS_ACCESS_KEY_ID": docker_aws_ecr_proxy_access_id,
           "AWS_SECRET_ACCESS_KEY": docker_aws_ecr_proxy_secret_key
         })
-        | union({
-          "REGISTRY_HTTP_TLS_KEY": docker_aws_ecr_proxy_ssl_container_path ~ "/key.pem"
+        | combine({
+          "REGISTRY_HTTP_TLS_KEY": docker_aws_ecr_proxy_ssl_container_path ~ "/key.pem",
           "REGISTRY_HTTP_TLS_CERTIFICATE": docker_aws_ecr_proxy_ssl_container_path ~ "/certificate.pem"
         } if (docker_aws_ecr_proxy_ssl_enabled | bool) else {})
       }}
@@ -90,7 +90,7 @@
         ] if (docker_aws_ecr_proxy_profile_path|length) else [])
         | union([
           docker_aws_ecr_proxy_ssl_host_path ~ "/" ~ docker_aws_ecr_proxy_ssl_host_cert_name
-            ~ ":" ~ docker_aws_ecr_proxy_ssl_container_path ~ "/certificate.pem:ro"
+            ~ ":" ~ docker_aws_ecr_proxy_ssl_container_path ~ "/certificate.pem:ro",
           docker_aws_ecr_proxy_ssl_host_path ~ "/" ~ docker_aws_ecr_proxy_ssl_host_key_name
             ~ ":" ~ docker_aws_ecr_proxy_ssl_container_path ~ "/key.pem:ro"
         ] if (docker_aws_ecr_proxy_ssl_enabled | bool) else [])
