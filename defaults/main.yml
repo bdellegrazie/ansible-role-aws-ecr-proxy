@@ -5,7 +5,9 @@ docker_aws_ecr_proxy_image: "bdellegrazie/aws-ecr-proxy:{{ docker_aws_ecr_proxy_
 docker_aws_ecr_proxy_version: latest
 docker_aws_ecr_proxy_backend: "{{ docker_aws_ecr_proxy_account_id }}.dkr.ecr.{{ docker_aws_ecr_proxy_region }}.amazonaws.com"
 docker_aws_ecr_proxy_backend_schema: https
-docker_aws_ecr_proxy_backend_resolver: "8.8.8.8"
+docker_aws_ecr_proxy_backend_resolvers:
+  - "8.8.8.8"
+  - "8.8.4.4"
 docker_aws_ecr_proxy_pull: true
 
 # AWS Configuration
