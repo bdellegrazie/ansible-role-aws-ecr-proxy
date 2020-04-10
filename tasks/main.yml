@@ -57,7 +57,7 @@
     network_mode: host
     restart_policy: unless-stopped
     recreate: "{{ (docker_aws_ecr_proxy_clear_cache|bool) or (_image_pull is defined and _image_pull is changed) }}"
-    dns_servers: "{{ docker_aws_ecr_proxy_backend_resolvers }}"
+    dns_servers: "{{ docker_aws_ecr_proxy_backend_resolvers | default(omit) }}"
     state: started
     tmpfs:
       - "/tmp"
