@@ -2,6 +2,7 @@ docker_aws_ecr_proxy_clear_cache: false
 docker_aws_ecr_proxy_cache_limit: 75g
 docker_aws_ecr_proxy_cache_path: /registry/local-storage/cache
 docker_aws_ecr_proxy_image: "bdellegrazie/aws-ecr-proxy:{{ docker_aws_ecr_proxy_version }}"
+docker_aws_ecr_proxy_port: 5000
 docker_aws_ecr_proxy_version: latest
 docker_aws_ecr_proxy_backend: "{{ docker_aws_ecr_proxy_account_id }}.dkr.ecr.{{ docker_aws_ecr_proxy_region }}.amazonaws.com"
 docker_aws_ecr_proxy_backend_schema: https

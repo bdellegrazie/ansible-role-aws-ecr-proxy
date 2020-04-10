@@ -64,8 +64,8 @@
     env: >
       {{
         {
-          "RESOLVER": docker_aws_ecr_proxy_backend_resolver,
-          "PORT": "5000",
+          "RESOLVER": docker_aws_ecr_proxy_backend_resolvers | default(['127.0.0.1:53']) | join(' '),
+          "PORT": "{{ docker_aws_ecr_proxy_port }}",
           "UPSTREAM": docker_aws_ecr_proxy_backend_schema ~ "//" ~ docker_aws_ecr_proxy_backend,
           "CACHE_MAX_SIZE": docker_aws_ecr_proxy_cache_limit,
           "AWS_REGION": docker_aws_ecr_proxy_region,
