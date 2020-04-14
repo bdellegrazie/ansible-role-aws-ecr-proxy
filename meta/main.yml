@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: aws-ecr-proxy
+  role_name: aws_ecr_proxy
   author: Brett Delle Grazie
   description: Role to manage aws-ecr-proxy. Based on original work by [eSailors GmbH](https://github.com/Lotto24/aws-ecr-http-proxy)
 
