@@ -53,7 +53,7 @@
   become: true
   docker_container:
     image: "{{ docker_aws_ecr_proxy_image }}"
-    name: docker-registry-proxy
+    name: "{{ docker_aws_ecr_proxy_name | default(omit) }}"
     network_mode: host
     restart_policy: unless-stopped
     recreate: "{{ (docker_aws_ecr_proxy_clear_cache|bool) or (_image_pull is defined and _image_pull is changed) }}"

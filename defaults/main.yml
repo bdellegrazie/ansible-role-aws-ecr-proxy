@@ -8,6 +8,7 @@ docker_aws_ecr_proxy_backend: "{{ docker_aws_ecr_proxy_account_id }}.dkr.ecr.{{ 
 docker_aws_ecr_proxy_backend_schema: https
 #docker_aws_ecr_proxy_backend_resolvers: []
 docker_aws_ecr_proxy_pull: true
+# docker_aws_ecr_proxy_name: "docker-registry-proxy"
 
 # AWS Configuration
 docker_aws_ecr_proxy_access_id:
